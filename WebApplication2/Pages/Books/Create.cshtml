@@ -1,0 +1,58 @@
+﻿@page
+@model LibraryGet.Web.CORE.Pages.Books.CreateModel
+@{
+    ViewData["Title"] = "Add New Product Page";
+}
+
+<div>
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><strong>New Book</strong></h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <form method="post">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="NewBook.BookName" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' asp-for="NewBook.BookName" />
+                                                    <span class="alert-danger" asp-validation-for="NewBook.BookName"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="NewBook.BookDescription" style="font-weight:bold;"></label>
+                                                    <textarea class='form-control' asp-for="NewBook.BookDescription" rows="3"></textarea>
+                                                    <span class="alert-danger" asp-validation-for="NewBook.BookDescription"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="NewBook.Quantity" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' asp-for="NewBook.Quantity" />
+                                                    <span class="alert-danger" asp-validation-for="NewBook.Quantity"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="NewBook.AuthorName" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' asp-for="NewBook.AuthorName" />
+                                                    <span class="alert-danger" asp-validation-for="NewBook.AuthorName"></span>
+                                                </div>
+
+                                                <div class="text-center col-md-12" style="margin-top:35px;">
+                                                    <button class="btn btn-primary btn-sx" type="submit"><i class="glyphicon glyphicon-plus"></i> Add Book</button>
+                                                    <a class="btn btn-primary btn-sx" asp-page="/Books/Index"><i class="glyphicon glyphicon-backward"></i> Books List</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

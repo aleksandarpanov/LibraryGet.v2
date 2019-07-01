@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="f1753bf3-f73a-4834-ada1-c5fefd85795a" ChangeDateTime="06/29/2019 10:43:00">
+    <Property Name="ElementName" Value="[dbo].[Book].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Book]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BookID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2c859159-c8de-4638-82d0-cf3788280a3d" ChangeDateTime="06/29/2019 11:35:25">
+    <Property Name="ElementName" Value="[dbo].[BookReservation].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[BookReservation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BookReservationID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1e839b0c-a141-4543-a70c-e3f5ed089455" ChangeDateTime="06/29/2019 11:37:19">
+    <Property Name="ElementName" Value="[dbo].[BookReservationStatusID].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[BookReservationStatusID]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Boo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5008d7c8-26b1-4ea5-bc52-ef5526fa0ff1" ChangeDateTime="06/29/2019 11:37:21">
+    <Property Name="ElementName" Value="[dbo].[BookReservationStatusID].[Boo]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[BookReservationStatusID]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BookReservationStatusID" />
+  </Operation>
+</Operations>

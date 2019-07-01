@@ -1,0 +1,146 @@
+﻿@page
+@model LibraryGet.Web.CORE.Pages.Books.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col">
+            <div class="float-right">
+                <button type="button" class="btn btn-primary mb-1"><a asp-page="/Books/Create" class="btn btn-primary">Create Book</a></button>
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success" id="success-alert" style="margin-top: 40px;">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>@Model.Message ! </strong>
+        </div>
+    }
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Description</th>
+                <th>Quantity</th>
+                <th>Available</th>
+                <th>Author Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.CurrentItems)
+            {
+                <tr>
+                    <td class="w-25">@book.BookName</td>
+                    <td class="w-50">@book.BookDescription</td>
+                    <td>@book.Quantity</td>
+                    <td>@book.Available</td>
+                    <td>@book.AuthorName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Description</th>
+                <th>Author Name</th>
+                <th>Reservation Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.CurrentItems)
+            {
+                <tr>
+                    <td class="w-25">@book.BookName</td>
+                    <td class="w-50">@book.BookDescription</td>
+                    <td>@book.AuthorName</td>
+                    <td>@book.BookStatus</td>
+                    @if (book.BookStatus.ToLower() == "available")
+                    {
+                        <td>
+                            <form method="post">
+                                <button type="submit" class="btn btn-secondary" asp-page-handler="Reserve" asp-route-id="@book.BookID">Reserve</button>
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<paging total-records="Model.TotalItems" page-no="Model.PageNo"></paging>
+
+<!-- pager -->
+@*@if (Model.Pager.Pages.Any())
+    {
+        <nav class="table-responsive">
+            <ul class="pagination justify-content-center d-flex flex-wrap">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/Books">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/Books?p=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                    </li>
+                }
+
+                @foreach (var p in Model.Pager.Pages)
+                {
+                    <li class="page-item @(p == Model.Pager.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="/Books?p=@p">@p</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/Books?p=@(Model.Pager.CurrentPage + 1)">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/Books?p=@(Model.Pager.TotalPages)">Last</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }*@
+
+@section scripts {
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+}
+
+<script>
+    function myFunction(x) {
+        $("#item_view").modal();
+    };
+    $(document).ready(function () {
+        $("#success-alert").hide();
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    });
+
+</script>

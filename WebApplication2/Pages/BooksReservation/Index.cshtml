@@ -1,0 +1,83 @@
+﻿@page
+@model LibraryGet.Web.CORE.Pages.BooksReservation.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@{
+    if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success" id="success-alert" style="margin-top: 40px;">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>@Model.Message ! </strong>
+        </div>
+    }
+}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Book Name</th>
+            <th>User Name</th>
+            <th>Available</th>
+            <th>Status</th>
+            <th>Return Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bookReservation in Model.BookReservations)
+        {
+            <tr>
+                <td>@bookReservation.BookName</td>
+                <td>@bookReservation.UserName</td>
+                <td>@bookReservation.Available</td>
+                <td>@bookReservation.BookReservationStatusName</td>
+                <td>@bookReservation.ReturnDate</td>
+                @if (bookReservation.Available > 0)
+                {
+                    if (bookReservation.BookReservationStatusName.ToLower() == "pending")
+                    {
+                        <td>
+                            <form method="post">
+                                <button type="submit" class="btn btn-secondary" asp-page-handler="Approve" asp-route-bookReservationID="@bookReservation.BookReservationID" asp-route-bookReservationStatusID="2" asp-route-bookID="@bookReservation.BookID" asp-route-bookName="@bookReservation.BookName" asp-route-userName="@bookReservation.UserName">Approve</button>
+                            </form>
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td>No books available.</td>
+                }
+
+                @if (bookReservation.BookReservationStatusName.ToLower() == "reserved")
+                {
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-secondary" asp-page-handler="Return" asp-route-bookReservationID="@bookReservation.BookReservationID" asp-route-bookReservationStatusID="3" asp-route-bookID="@bookReservation.BookID" asp-route-bookName="@bookReservation.BookName" asp-route-userName="@bookReservation.UserName">Return</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+}
+
+<script>
+    function myFunction(x) {
+        $("#item_view").modal();
+    };
+    $(document).ready(function () {
+        $("#success-alert").hide();
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    });
+
+</script>
+

@@ -1,0 +1,15 @@
+﻿CREATE PROCEDURE [dbo].[BookDelete_sp]
+@BookID INT
+AS
+
+DELETE FROM Book
+WHERE BookID = @BookID
+
+IF @@ROWCOUNT = 1
+	BEGIN
+		SELECT  1
+	END
+ELSE
+	BEGIN
+		SELECT 0
+	END
