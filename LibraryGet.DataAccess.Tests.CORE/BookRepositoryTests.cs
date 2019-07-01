@@ -92,12 +92,26 @@ namespace LibraryGet.DataAccess.Tests.CORE
 
             result.Should().BeTrue();
 
-            // clean
-
-
             return Task.FromResult(true);
         }
 
         #endregion
+
+        //#region Private Methods
+        //private IBookRepository CreateRepository(string connectionString)
+        //{
+        //    return new BookRepository(connectionString);
+        //}
+
+        //private string Init()
+        //{
+        //    var config = new ConfigurationBuilder()
+        //    .AddJsonFile("appSettings.json")
+        //    .Build();
+
+        //    return config["ConnectionString"];
+        //}
+
+        //#endregion
     }
 }

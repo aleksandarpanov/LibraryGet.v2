@@ -41,22 +41,14 @@ namespace LibraryGet.DataAccess.STANDARD.Dapper
         /// </returns>
         public async Task<BookReservation> CreateAsync(int bookID, string appUserID)
         {
-            BookReservation bookReservation = null;
-            try
-            {
-                var result = await DB.QueryAsync<BookReservation>("BookReservationCreate_sp", new { BookID = bookID, AppUserID = appUserID }, commandType: CommandType.StoredProcedure);
+            var result = await DB.QueryAsync<BookReservation>("BookReservationCreate_sp", new { BookID = bookID, AppUserID = appUserID }, commandType: CommandType.StoredProcedure);
 
-                if (result != null)
-                {
-                    bookReservation = result.FirstOrDefault();
-                }
-            }
-            catch(Exception ex)
+            if (result == null)
             {
-                // throw ex;
+                return null;
             }
 
-            return bookReservation;
+            return result.FirstOrDefault();
         }
 
         /// <summary>
@@ -69,50 +61,31 @@ namespace LibraryGet.DataAccess.STANDARD.Dapper
         /// </returns>
         public async Task<List<BookReservation>> BookReservationReadAllAsync()
         {
-            List<BookReservation> bookReservations = null;
-            try
-            {
-                var response = await DB.QueryAsync<BookReservation>("BookReservationReadAll_sp", commandType: CommandType.StoredProcedure);
+            var response = await DB.QueryAsync<BookReservation>("BookReservationReadAll_sp", commandType: CommandType.StoredProcedure);
 
-                bookReservations = response.ToList();
-            }
-            catch (Exception ex)
-            {
-                //throw ex;
-            }
-
-            return bookReservations;
+            return response.ToList();
         }
 
         public async Task<bool> UpdateAsync(int bookReservationID, int bookReservationStatus)
         {
-            bool result = false;
+            DateTime returnDate = DateTime.MinValue;
 
-            try
+            if (bookReservationStatus == (int)BookReservationStatusEnum.Reserved)
             {
-                DateTime returnDate = DateTime.MinValue;
-
-                if (bookReservationStatus == (int)BookReservationStatusEnum.Reserved)
-                {
-                    returnDate = DateTime.Now.AddDays(15);
-                }
-                else if (bookReservationStatus == (int)BookReservationStatusEnum.Returned)
-                {
-                    returnDate = DateTime.Now;
-                }
-
-                if (returnDate != DateTime.MinValue)
-                {
-                    var response = await DB.ExecuteAsync("BookReservationUpdate_sp", new { BookReservationID = bookReservationID, ReturnDate = returnDate, BookReservationStatusID = bookReservationStatus }, commandType: CommandType.StoredProcedure);
-                    result =  response > 0;
-                }
+                returnDate = DateTime.Now.AddDays(15);
             }
-            catch (Exception ex)
+            else if (bookReservationStatus == (int)BookReservationStatusEnum.Returned)
             {
-                throw ex;
+                returnDate = DateTime.Now;
             }
 
-            return result;
+            if (returnDate != DateTime.MinValue)
+            {
+                var response = await DB.ExecuteAsync("BookReservationUpdate_sp", new { BookReservationID = bookReservationID, ReturnDate = returnDate, BookReservationStatusID = bookReservationStatus }, commandType: CommandType.StoredProcedure);
+                return response > 0;
+            }
+
+            return false;
         }
 
         #endregion

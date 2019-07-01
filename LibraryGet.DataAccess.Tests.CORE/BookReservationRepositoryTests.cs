@@ -46,10 +46,10 @@ namespace LibraryGet.DataAccess.Tests.CORE
             BookReservation bookReservation = new BookReservation() { BookReservationID = 5, ReturnDate = DateTime.Now.AddDays(15), BookReservationStatusID = (int)BookReservationStatusEnum.Reserved };
 
             // act
-            // bool result = bookReservationRepository.UpdateAsync(bookReservation).GetAwaiter().GetResult();
+            bool result = bookReservationRepository.UpdateAsync(bookReservation).GetAwaiter().GetResult();
 
             // assert
-            // result.Should().BeTrue();
+            result.Should().BeTrue();
 
             return Task.FromResult(true);
         }
