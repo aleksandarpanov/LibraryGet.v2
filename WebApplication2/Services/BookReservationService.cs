@@ -43,15 +43,24 @@ namespace LibraryGet.Web.CORE.Services
 
         public async Task<BookReservation> CreateAsync(int bookID, string appUserID)
         {
-            BookReservation bookReservation = await DataManager.CreateAsync(bookID, appUserID);
+            BookReservation bookReservation = null;
 
-            if (bookReservation != null && bookReservation.BookReservationID > 0)
+            try
             {
-                var usersOfRole = await UserManager.GetUsersInRoleAsync("Admin");
-                if (usersOfRole.Count > 0)
+                bookReservation = await DataManager.CreateAsync(bookID, appUserID);
+
+                if (bookReservation != null && bookReservation.BookReservationID > 0)
                 {
-                    await singlarHubContext.Clients.User(usersOfRole[0].UserName).SendAsync("BookRequest", bookReservation);
+                    var usersOfRole = await UserManager.GetUsersInRoleAsync("Admin");
+                    if (usersOfRole.Count > 0)
+                    {
+                        await singlarHubContext.Clients.User(usersOfRole[0].UserName).SendAsync("BookRequest", bookReservation);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                // throw ex;
             }
 
             return bookReservation;
